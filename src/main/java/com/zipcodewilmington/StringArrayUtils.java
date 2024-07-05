@@ -1,7 +1,6 @@
 package com.zipcodewilmington;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Created by leon on 1/29/18.
@@ -29,7 +28,7 @@ public class StringArrayUtils {
      * @return last element in specified array
      */ // TODO
     public static String getLastElement(String[] array) {
-        return array[array.length-1];
+        return array[array.length - 1];
     }
 
     /**
@@ -37,7 +36,7 @@ public class StringArrayUtils {
      * @return second to last element in specified array
      */ // TODO
     public static String getSecondToLastElement(String[] array) {
-        return array[array.length-2];
+        return array[array.length - 2];
     }
 
     /**
@@ -56,7 +55,7 @@ public class StringArrayUtils {
      * @return an array with identical contents in reverse order
      */ // TODO
     public static String[] reverse(String[] array) {
-       Collections.reverse(Arrays.asList(array));
+        Collections.reverse(Arrays.asList(array));
         return array;
 
     }
@@ -67,13 +66,9 @@ public class StringArrayUtils {
      */ // TODO
     //String[] array = {"a", "b", "c", "b", "a"} returns true
     public static boolean isPalindromic(String[] array) {
-        String[]reversed= reverse(array);
+        String[] reversed = array.clone();
+        Collections.reverse(Arrays.asList(array));
         return Arrays.equals(array, reversed);
-
-
-        //stringBuilder2.toString();
-      //  return firstHalf.equals(reversed);
-        //return false;
     }
 
     /**
@@ -81,7 +76,16 @@ public class StringArrayUtils {
      * @return true if each letter in the alphabet has been used in the array
      */ // TODO
     public static boolean isPangramic(String[] array) {
-        return false;
+        String arrayer = Arrays.toString(array).toLowerCase();
+        char[] alphabets = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        boolean results = true;
+        for (int i = 0; i < alphabets.length; i++) {
+            if (!arrayer.contains(String.valueOf(alphabets[i]))){
+                return false;
+            }
+        }
+        return true;
+
     }
 
     /**
@@ -90,7 +94,13 @@ public class StringArrayUtils {
      * @return number of occurrences the specified `value` has occurred
      */ // TODO
     public static int getNumberOfOccurrences(String[] array, String value) {
-        return 0;
+        int results = 0;
+        for(int i=0; i< array.length; i++){
+            if(array[i].equals(value)){
+                results++;
+            }
+        }
+        return results;
     }
 
     /**
@@ -99,7 +109,16 @@ public class StringArrayUtils {
      * @return array with identical contents excluding values of `value`
      */ // TODO
     public static String[] removeValue(String[] array, String valueToRemove) {
-        return null;
+        int resultsLength = ((array.length) - (getNumberOfOccurrences(array, valueToRemove)));
+        String[]results = new String[resultsLength];
+        int index = 0;
+        for(int i =0; i< array.length; i++){
+            if(!valueToRemove.equals(array[i])){
+                results[index] = array[i];
+                index++;
+            }
+        }
+        return results;
     }
 
     /**
@@ -107,7 +126,18 @@ public class StringArrayUtils {
      * @return array of Strings with consecutive duplicates removes
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        return null;
+        ArrayList<String>results = new ArrayList<String>();
+
+        for(int i=0; i< array.length; i++){
+
+            if(i+1 <= array.length-1 && !array[i].equals(array[i+1])){
+                results.add(array[i]);
+            }else if(i+1 == array.length){
+                results.add(array[i]);
+            }
+        }
+        String[] solution = results.toArray(new String[0]);
+        return solution;
     }
 
     /**
@@ -115,7 +145,23 @@ public class StringArrayUtils {
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        return null;
+        ArrayList<String> consecutiveDupe = new ArrayList<>();
+        String accum = "";
+
+        for (String eachStr : array) {
+            if (accum.isEmpty()) {
+                accum = eachStr;
+            } else {
+                if (accum.charAt(0) == eachStr.charAt(0)) {
+                    accum += eachStr;
+                } else {
+                    consecutiveDupe.add(accum);
+                    accum = eachStr;
+                }
+            }
+        }
+        consecutiveDupe.add(accum);
+        return consecutiveDupe.toArray(String[]::new);
     }
 
 
